@@ -63,7 +63,9 @@ class E(tk.Tk):
         self.exitbtn = tk.Button(self, text='Exit', command=self.destroy)
         self.exitbtn.pack(ipadx=0,side='top',anchor = 'ne')
         
-        self.Label1 = tk.Label(self, text='My',textvariable = self.var) 
+        self.label1text = tk.StringVar()
+        self.label1text.set("My Scale value = " + str(self.var.get()) )
+        self.Label1 = tk.Label(self, textvariable = self.label1text) 
         self.Label1.pack(ipadx=10)
         
         self.scale1 = tk.Scale(self, from_=1, to=10, orient = "horizontal", variable = self.var, command=self.myupdateScale)
@@ -101,6 +103,7 @@ class E(tk.Tk):
         sys.exit()
     def myupdateScale(self,insidefunvar):
         print('updating scale value')
+        self.ax1.clear()
         self.ax1.plot(1, int(self.var.get()) ,'x')
         self.canvas.show()
         
