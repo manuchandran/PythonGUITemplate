@@ -10,6 +10,10 @@ http://physicalmodelingwithpython.blogspot.com/2016/04/make-your-own-gui-with-py
 https://pythonprogramming.net/how-to-embed-matplotlib-graph-tkter-gui/
 http://www.tkdocs.com/tutorial/install.html
 
+http://www.java2s.com/Code/Python/GUI-Tk/LayoutanchorNWWandE.htm
+http://effbot.org/tkinterbook/pack.htm
+https://www.tutorialspoint.com/python/tk_pack.htm
+
 """
 import tkinter as tk   
 import matplotlib
@@ -56,10 +60,17 @@ class E(tk.Tk):
 
        # t = ax.plot_surface(x, y, z,  rstride=4, cstride=4,color='lightgreen',linewidth=0)
 
-
+        self.exitbtn = tk.Button(self, text='Exit', command=self.destroy)
+        self.exitbtn.pack(ipadx=0,side='top',anchor = 'ne')
+        
+        self.Label1 = tk.Label(self, text='My',textvariable = self.var) 
+        self.Label1.pack(ipadx=10)
+        
+        self.scale1 = tk.Scale(self, from_=1, to=10, orient = "horizontal", variable = self.var, command=self.myupdateScale)
+        self.scale1.pack(ipadx=500,anchor = 'ne')
+        
         self.frame = tk.Frame(self)
-        self.frame.pack(padx=15,pady=15)
-
+        self.frame.pack(padx=0,pady=0)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.frame)
 
         self.canvas.get_tk_widget().pack(side='top', fill='both')
@@ -70,8 +81,7 @@ class E(tk.Tk):
         #self.toolbar.update()
         #self.toolbar.pack()
 
-        self.Label1 = tk.Label(self,textvariable = self.var) 
-        self.Label1.pack(ipadx=10)
+      
         
         self.btn = tk.Button(self,text='button',command=self.alt)
         self.btn.pack(ipadx=250)
@@ -81,10 +91,7 @@ class E(tk.Tk):
         #Label(root, textvariable=var).pack()
         #Scale(root, from_=-2.0, to=10.0, variable=var).pack()
 
-        self.scale1 = tk.Scale(self, from_=1, to=10, orient = "horizontal", variable = self.var, command=self.myupdateScale)
-        self.scale1.pack(ipadx=0)
-        self.exitbtn = tk.Button(self, text='Exit', command=self.destroy)
-        self.exitbtn.pack(ipadx=500)
+        
         #print(var)
 
     def alt(self):
