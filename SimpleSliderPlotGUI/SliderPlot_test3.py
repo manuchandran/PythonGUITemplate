@@ -40,16 +40,20 @@ class E(tk.Tk):
 
     def main(self):
         #self.fig = plt.figure()
-        self.fig = plt.figure(figsize=(3.5,3.5))
+        self.fig = plt.figure() #figsize=(3.5,3.5))
+        
         #ax = Axes3D(self.fig)
         self.var     = tk.IntVar()
         x       = np.arange(0, 10, 0.2)
         y       = np.sin(x)
         yvar    = [y*self.var.get() for y in range(len(y))]
         
-        self.ax1 = self.fig.add_subplot(111)
+        self.ax1 = self.fig.add_subplot(221)
+        self.ax2 = self.fig.add_subplot(222)
         #ax1.plot(x, yvar,'x')
         self.ax1.plot(1, int(self.var.get()) ,'x')
+        self.ax2.plot(int(self.var.get()),1 ,'o')
+
     
 #     prop = 10
 #        u = np.linspace(0, 2 * np.pi, 100)
@@ -63,38 +67,24 @@ class E(tk.Tk):
         self.exitbtn = tk.Button(self, text='Exit', command=self.destroy)
         self.exitbtn.pack(ipadx=0,side='top',anchor = 'ne')
         
-        self.label1text = tk.StringVar()
-        self.label1text.set("My Scale value = " + str(self.var.get()) )
-        self.Label1 = tk.Label(self, textvariable = self.label1text) 
-        self.Label1.pack(ipadx=10)
+        self.btn = tk.Button(self,text='Reset All inputs',command=self.alt)
+        self.btn.pack(ipadx=250)
         
-        self.scale1 = tk.Scale(self, from_=1, to=10, orient = "horizontal", variable = self.var, command=self.myupdateScale)
+        self.scale1 = tk.Scale(self, from_=1, to=10, orient = "horizontal", variable = self.var, command=self.myupdateScale, label = "Label1")
         self.scale1.pack(ipadx=500,anchor = 'ne')
         
         self.frame = tk.Frame(self)
-        self.frame.pack(padx=0,pady=0)
+        self.frame.pack(ipadx=500,ipady=100)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.frame)
 
         self.canvas.get_tk_widget().pack(side='top', fill='both')
         self.canvas._tkcanvas.pack(side='top', fill='both', expand=1)
         self.canvas.draw()
 
-        #self.toolbar = NavigationToolbar2TkAgg( self.canvas, self )
-        #self.toolbar.update()
-        #self.toolbar.pack()
-
-      
-        
-        self.btn = tk.Button(self,text='button',command=self.alt)
-        self.btn.pack(ipadx=250)
-        
-        #master = tk.Tk()
-      
-        #Label(root, textvariable=var).pack()
-        #Scale(root, from_=-2.0, to=10.0, variable=var).pack()
-
-        
-        #print(var)
+        self.label1text = tk.StringVar()
+        self.label1text.set("My Scale value = " + str(self.var.get()) )
+        self.Label1 = tk.Label(self, textvariable = self.label1text) 
+        self.Label1.pack(ipadx=10, anchor = 'nw')
 
     def alt(self):
          print('alt function called')
@@ -104,7 +94,10 @@ class E(tk.Tk):
     def myupdateScale(self,insidefunvar):
         print('updating scale value')
         self.ax1.clear()
+        self.ax2.clear()
         self.ax1.plot(1, int(self.var.get()) ,'x')
+        self.ax2.plot(int(self.var.get()),1 ,'o')
+        self.label1text.set("My Scale value = " + str(self.var.get()) )
         self.canvas.show()
         
 
