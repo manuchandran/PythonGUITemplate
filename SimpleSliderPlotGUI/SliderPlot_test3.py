@@ -74,7 +74,7 @@ class E(tk.Tk):
         self.scale1.pack(ipadx=500,anchor = 'ne')
         
         self.frame = tk.Frame(self)
-        self.frame.pack(ipadx=500,ipady=100)
+        self.frame.pack(ipadx=500,ipady=100,fill='both', expand=1)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.frame)
 
         self.canvas.get_tk_widget().pack(side='top', fill='both')
