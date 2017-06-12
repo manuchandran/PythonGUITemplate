@@ -13,6 +13,8 @@ http://www.tkdocs.com/tutorial/install.html
 http://www.java2s.com/Code/Python/GUI-Tk/LayoutanchorNWWandE.htm
 http://effbot.org/tkinterbook/pack.htm
 https://www.tutorialspoint.com/python/tk_pack.htm
+https://stackoverflow.com/questions/25745011/tkinter-slider-scale-with-discrete-steps
+
 
 """
 import tkinter as tk   
@@ -80,10 +82,22 @@ class E(tk.Tk):
         self.btn = tk.Button(self,text='Reset All inputs',command=self.resetvalues)
         self.btn.pack(ipadx=250)
         
-        self.scale1 = tk.Scale(self, from_=1, to=10, orient = "horizontal", variable = self.Radius, command=self.myupdateScale, label = "Radius")
-        self.scale1.pack(ipadx=500,anchor = 'ne')
-
+        self.scaleRadius = tk.Scale(self, from_=350, to=550, orient = "horizontal", variable = self.Radius, command=self.myupdateScale, label = "Radius")
+        self.scaleRadius.pack(ipadx=500,anchor = 'ne')
         
+        self.scaleSpeed = tk.Scale(self, from_=4000, to=6000, orient = "horizontal", variable = self.Speed, command=self.myupdateScale, label = "Speed", resolution = 1000)
+        self.scaleSpeed.pack(ipadx=500,anchor = 'ne')
+        
+        self.scaleInterFrameDist = tk.Scale(self, from_=6, to=20, orient = "horizontal", variable = self.InterFrameDist, command=self.myupdateScale, label = "InterFrameDist")
+        self.scaleInterFrameDist.pack(ipadx=500,anchor = 'ne')
+        
+        self.scaleSpacing = tk.Scale(self, from_=4, to=10, orient = "horizontal", variable = self.Spacing, command=self.myupdateScale, label = "Spacing")
+        self.scaleSpacing.pack(ipadx=500,anchor = 'ne')
+        
+        self.label1text = tk.StringVar()
+        self.Label1 = tk.Label(self, textvariable = self.label1text) 
+        self.Label1.pack(ipadx=10, anchor = 'nw')
+
         self.frame = tk.Frame(self)
         self.frame.pack(ipadx=500,ipady=100,fill='both', expand=1)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.frame)
@@ -96,10 +110,17 @@ class E(tk.Tk):
         self.toolbar.update()
         self.toolbar.pack()
         
-        self.label1text = tk.StringVar()
-        self.Label1 = tk.Label(self, textvariable = self.label1text) 
-        self.Label1.pack(ipadx=10, anchor = 'nw')
+       
 
+#    def valuecheck(self,value):
+#        #print("Incomplete function")
+#        self.Speedlist  = [3000, 5000, 6000]
+#        self.newvalue   = min(self.Speedlist, key=lambda x:abs(x-float(self.Speed.get())))
+#        self.Speed.set(self.newvalue)
+#        print("NewValue = " + str(self.Speed.get()))
+#        self.myupdateScale(1)
+        #slider.set(newvalue)
+    
     def resetvalues(self):
         print('Reset function called')
         self.Radius.set(self.initRadius)
@@ -117,14 +138,20 @@ class E(tk.Tk):
         self.ax1.clear()
         self.ax2.clear()
         self.ax1.plot(1, int(self.Radius.get()) ,'x')
-        #self.ax2.plot(int(self.Radius.get()),1 ,'o')
-        circle2 = plt.Circle((0.5, 0.5), self.Radius.get()/10, color='blue',)
+        circle2 = plt.Circle((0.5, 0.5), self.Radius.get()/1000, color='blue',)
+        print(self.Radius.get()/100)
         self.ax2.add_artist(circle2)
-        self.label1text.set("My Scale value = " + str(self.Radius.get()) )
+        
+        self.Speedlist  = [3000, 5000, 6000]
+        self.SpeedInternal   = min(self.Speedlist, key=lambda x:abs(x-float(self.Speed.get())))
+        
+        self.label1text.set("R = " + str(self.Radius.get()) + ",Speed =" + str(self.SpeedInternal) +
+                            ",Spacing =" + str(self.Spacing.get()) + ",IFD =" + str(self.InterFrameDist.get())
+                            )
         self.canvas.show()
             
-
 if __name__ == "__main__":
     app = E(None)
     app.title('Sample GUI')
     app.mainloop()
+    
